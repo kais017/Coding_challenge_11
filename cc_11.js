@@ -89,18 +89,30 @@ class Library {
         if(book && borrower && book.copies > 0){
             book.updateCopies(-1); //removes 1 from copies
             borrower.borrowBook(book.title);
+            console.log("Book Borrowed!");
         }
         else {
-            console.log("Book Unavailable.")
+            console.log("Book Unavailable.");
         }
       }
-    }
 
+      //task 5:
+      returnBook(borrowerId, isbn) {
+        const book = this.books.find(book => book.isbn === isbn);
+        const borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
+    if (book && borrower) {
+        book.updateCopies(1);
+        borrower.returnBook(book.title);
+        console.log("Book Returned.");
+      } 
+    }
+ }
 
 // Test Cases:
 console.log("Library:") //adding title to task 3 on console
 const library = new Library(); 
 library.addBook(book1); //shows added book
+library.addBorrower(borrower1); // add borrower
 library.listBooks(); 
 
 // Task 4: Implementing Book Borrowing
@@ -108,4 +120,11 @@ library.listBooks();
 // Test cases:
 library.lendBook(201, 123456);
 console.log(book1.getDetails());
-console.log(borrower1.borrowedBooks); 
+console.log(borrower1.borrowedBooks); //outputs borrower, book, and updated quantity
+
+// Task 5: Implementing Book Returns
+// in task 3:
+// test cases:
+library.returnBook(201, 123456);
+console.log(book1.getDetails());
+console.log(borrower1.borrowedBooks); // output the returned book and updates book details
